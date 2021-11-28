@@ -17,25 +17,24 @@
         <el-menu background-color="#333744" text-color="#fff" active-text-color="#409EFF"
         unique-opened :collapse="isCollapse" :collapse-transition=false :router=true :default-active="activePath">
           <!-- 一级菜单 -->
-          <el-submenu :index="item.id + '' " v-for="item in menuList" :key="item.id">
+          <el-menu-item :index="item.path + '' " v-for="item in menuList" :key="item.menuId"
+          @click="saveNavState('/' + item.path)">
             <!-- 一级菜单模板区域 -->
-            <template slot="title">
+            <template #title>
               <!-- 图标 -->
-              <i :class="iconsObj[item.id]"></i>
+              <i :class="iconsObj[item.menuId]"></i>
               <!-- 文本 -->
-              <span>{{item.authName}}</span>
+              <span>{{item.title}}</span>
             </template>
             <!-- 二级菜单 -->
-            <el-menu-item :index="'/' + subItem.path" v-for="subItem in item.children" :key="subItem.id"
+            <!-- <el-menu-item :index="'/' + subItem.path" v-for="subItem in item.children" :key="subItem.menuId"
             @click="saveNavState('/' + subItem.path)">
-              <template slot="title">
-                <!-- 图标 -->
+              <template #title>
                 <i class="el-icon-menu"></i>
-                <!-- 文本 -->
-                <span>{{subItem.authName}}</span>
+                <span>{{subItem.name}}</span>
               </template>
-            </el-menu-item>
-          </el-submenu>
+            </el-menu-item> -->
+          </el-menu-item>
         </el-menu>
       </el-aside>
       <!-- 右侧内容主体 -->
@@ -74,7 +73,7 @@ export default {
     },
     // 获取所有菜单
     async getMenuList () {
-      const { data: res } = await this.$http.get('menus')
+      const { data: res } = await this.axios.get('menus')
       if (res.code !== 0) {
         return this.$message.error(res.meta.msg)
       }

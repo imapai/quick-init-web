@@ -3,6 +3,8 @@ import Login from '../view/Login.vue'
 import Home from '../view/Home.vue'
 import Welcome from '../view/Welcome.vue'
 import User from '../view/user/index.vue'
+import Role from '../view/role/index.vue'
+import Menu from '../view/role/index.vue'
 
 const routes = [
   {
@@ -23,8 +25,16 @@ const routes = [
         component: Welcome
       },
       {
-        path: '/users',
+        path: '/user',
         component: User
+      },
+      {
+        path: '/role',
+        component: Role
+      },
+      {
+        path: '/menu',
+        component: Menu
       }
     ]
   }
@@ -45,7 +55,7 @@ router.beforeEach((to, from, next) => {
     return next()
   }
   // 获取token
-  const tokenStr = window.sessionStorage.getItem('token')
+  const tokenStr = localStorage.getItem('token')
   if (!tokenStr) {
     return next('/login')
   }

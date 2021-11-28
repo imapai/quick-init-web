@@ -80,9 +80,8 @@ const service = axios.create({
 service.interceptors.request.use((config: AxiosRequestConfig) => {
   //获取token，并将其添加至请求头中
   let token = localStorage.getItem('token')
-  if(token){
-    config.headers.Authorization = `${token}`;
-  }
+  console.log("打印token：" + token)
+  config.headers.Authorization = token;
   return config
 }, (error) => {
   // 错误抛到业务代码
