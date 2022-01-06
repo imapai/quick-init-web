@@ -11,20 +11,30 @@
     <!-- 页面主体区域 -->
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside :width="isCollapse ? '64px':'200px'">
+      <el-aside :width="isCollapse ? '64px' : '160px'">
         <div class="toggle-button" @click="closeMenu">|||</div>
         <!-- 侧边栏菜单区域 -->
-        <el-menu background-color="#333744" text-color="#fff" active-text-color="#409EFF"
-        unique-opened :collapse="isCollapse" :collapse-transition=false :router=true :default-active="activePath">
+        <el-menu
+          background-color="#333744"
+          text-color="#fff"
+          active-text-color="#409EFF"
+          unique-opened
+          :collapse="isCollapse"
+          :collapse-transition="false"
+          :router="true"
+          :default-active="activePath"
+        >
           <!-- 一级菜单 -->
-          <el-menu-item :index="item.path + '' " v-for="item in menuList" :key="item.menuId"
-          @click="saveNavState('/' + item.path)">
+          <el-menu-item
+            :index="item.path + ''"
+            v-for="item in menuList"
+            :key="item.menuId"
+            @click="saveNavState('/' + item.path)"
+          >
             <!-- 一级菜单模板区域 -->
             <template #title>
-              <!-- 图标 -->
-              <i :class="iconsObj[item.menuId]"></i>
-              <!-- 文本 -->
-              <span>{{item.title}}</span>
+              <i :class="item.icon"></i>
+              <span>{{ item.title }}</span>
             </template>
             <!-- 二级菜单 -->
             <!-- <el-menu-item :index="'/' + subItem.path" v-for="subItem in item.children" :key="subItem.menuId"
@@ -47,54 +57,45 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       // 左侧菜单
       menuList: [],
-      iconsObj: {
-        125: 'el-icon-user-solid',
-        103: 'el-icon-s-check',
-        101: 'el-icon-s-shop',
-        102: 'el-icon-s-goods',
-        145: 'el-icon-s-data'
-      },
       isCollapse: false,
-      activePath: ''
-    }
+      activePath: "",
+    };
   },
-  created () {
-    this.getMenuList()
-    this.activePath = window.sessionStorage.getItem('activePath')
+  created() {
+    this.getMenuList();
+    this.activePath = window.sessionStorage.getItem("activePath");
   },
   methods: {
-    logout () {
-      window.sessionStorage.removeItem('token')
-      this.$router.push('/login')
+    logout() {
+      window.sessionStorage.removeItem("token");
+      this.$router.push("/login");
     },
     // 获取所有菜单
-    async getMenuList () {
-      const { data: res } = await this.axios.get('menus')
+    async getMenuList() {
+      const { data: res } = await this.axios.get("menus");
       if (res.code !== 0) {
-        return this.$message.error(res.meta.msg)
+        return this.$message.error(res.meta.msg);
       }
-      this.menuList = res.data
-      console.log(res)
+      this.menuList = res.data;
+      console.log(res);
     },
-    // 折叠左侧菜单
-    closeMenu () {
-      this.isCollapse = !this.isCollapse
+    saveNavState(activePath) {
+      window.sessionStorage.setItem("activePath", activePath);
+      this.activePath = activePath;
     },
-    saveNavState (activePath) {
-      window.sessionStorage.setItem('activePath', activePath)
-      this.activePath = activePath
-    }
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
 .home-container {
+  position: absolute;
   height: 100%;
+  width: 100%;
 }
 #logo-img {
   height: 55px;
@@ -107,21 +108,21 @@ export default {
   align-items: center;
   color: #fff;
   font-size: 20px;
-
 }
 .el-header > div {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .el-header > div span {
-    margin-left: 15px;
+  margin-left: 15px;
 }
 .el-aside {
   background-color: #333744;
 }
 .el-aside .el-menu {
-    border-right: none;
+  border-right: none;
+  padding: 0%;
 }
 .el-main {
   background-color: #eaedf1;

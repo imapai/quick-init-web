@@ -4,7 +4,7 @@ import Home from '../view/Home.vue'
 import Welcome from '../view/Welcome.vue'
 import User from '../view/user/index.vue'
 import Role from '../view/role/index.vue'
-import Menu from '../view/role/index.vue'
+import Menu from '../view/menu/index.vue'
 
 const routes = [
   {
