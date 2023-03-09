@@ -1,6 +1,7 @@
 // http.ts
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ElMessage } from "element-plus"
+import JSON_BIG from "json-bigint"
 
 const showStatus = (status: number) => {
   let message = ''
@@ -54,13 +55,16 @@ const service = axios.create({
     },
     post: {
       'Content-Type': 'application/json;charset=utf-8'
+    },
+    put: {
+      'Content-Type': 'application/json;charset=utf-8'
     }
   },
   // 是否跨站点访问控制请求
   withCredentials: true,
   timeout: 30000,
   transformRequest: [(data) => {
-    data = JSON.stringify(data)
+    data = JSON_BIG.stringify(data)
     return data
   }],
   validateStatus() {
@@ -69,7 +73,7 @@ const service = axios.create({
   },
   transformResponse: [(data) => {
     if (typeof data === 'string' && data.startsWith('{')) {
-      data = JSON.parse(data)
+      data = JSON_BIG.parse(data)
     }
     return data
   }]
@@ -80,7 +84,7 @@ const service = axios.create({
 service.interceptors.request.use((config: AxiosRequestConfig) => {
   //获取token，并将其添加至请求头中
   let token = localStorage.getItem('token')
-  console.log("打印token：" + token)
+  //console.log("打印token：" + token)
   config.headers.Authorization = token;
   return config
 }, (error) => {
@@ -94,7 +98,7 @@ service.interceptors.request.use((config: AxiosRequestConfig) => {
 service.interceptors.response.use((response: AxiosResponse) => {
   const status = response.status
   let msg = ''
-  if (status < 200 || status >= 300) {
+  if (status != 200) {
     // 处理http错误，抛到业务代码
     msg = showStatus(status)
     if (typeof response.data === 'string') {

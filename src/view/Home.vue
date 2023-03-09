@@ -81,7 +81,6 @@ export default {
         return this.$message.error(res.meta.msg);
       }
       this.menuList = res.data;
-      console.log(res);
     },
     saveNavState(activePath) {
       window.sessionStorage.setItem("activePath", activePath);

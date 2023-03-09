@@ -9,3 +9,6 @@ npm run dev
 - axios, npm install axios --save
 - vue-router, npm install vue-router
 
+## 技术架构
+本项目使用 `Vue3`，基于 `Vite` + `Typescript`
+
